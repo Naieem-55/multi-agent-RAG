@@ -241,20 +241,26 @@ RAGentA draws inspiration from the MAIN-RAG framework (Multi-Agent Filtering Ret
 3. **Additional Agent-4 (Claim Judge)**: RAGentA introduces a fourth agent that performs claim-by-claim analysis to identify gaps in knowledge and generate targeted follow-up questions
 4. **Follow-up Processing**: RAGentA can retrieve additional information for unanswered aspects of questions through a novel follow-up question generation system
 
-Please cite both the original MAIN-RAG paper and RAGentA in any work that uses this code:
+Please cite both the original MAIN-RAG paper and RAGentA, when using this work:
 ```
-@article{chang2025mainrag,
-  title={MAIN-RAG: Multi-Agent Filtering Retrieval-Augmented Generation},
-  author={Chang, Chia-Yuan and Jiang, Zhimeng and Rakesh, Vineeth and Pan, Menghai and Yeh, Chin-Chia Michael and Wang, Guanchu and Hu, Mingzhi and Xu, Zhichao and Zheng, Yan and Das, Mahashweta and Zou, Na},
-  journal={arXiv preprint arXiv:2501.00332},
-  year={2025}
+@misc{Chang2024MAIN-RAG,
+      title={MAIN-RAG: Multi-Agent Filtering Retrieval-Augmented Generation}, 
+      author={Chia-Yuan Chang and Zhimeng Jiang and Vineeth Rakesh and Menghai Pan and Chin-Chia Michael Yeh and Guanchu Wang and Mingzhi Hu and Zhichao Xu and Yan Zheng and Mahashweta Das and Na Zou},
+      year={2024},
+      eprint={2501.00332},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2501.00332}, 
 }
 
-@software{RAGentA2025,
-  author = {Besrour, Ines and He, Jingbo and Schreieder, Tobias and Färber, Michael},
-  title = {RAGentA: Multi-Agent Retrieval-Augmented Generation for Attributed Question Answering},
-  year = {2025},
-  publisher = {GitHub},
-  url = {[git@github.com:tobiasschreieder/LiveRAG.git](https://github.com/tobiasschreieder/LiveRAG.git)}
+@misc{Besrour2025RAGentA,
+  author       = {Ines Besrour and Jingbo He and Tobias Schreieder and Michael Färber},
+  title        = {{RAGentA: Multi-Agent Retrieval-Augmented Generation for Attributed Question Answering}},
+  year         = {2025},
+  eprint       = {2506.16988},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.IR},
+  url          = {https://arxiv.org/abs/2506.16988},
+  note         = {Presented at the SIGIR 2025 LiveRAG Challenge, held in conjunction with the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2025), July 13–17, 2025, Padua, Italy}
 }
 ```
