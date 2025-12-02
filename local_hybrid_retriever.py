@@ -76,13 +76,24 @@ class LocalHybridRetriever:
 
         # Initialize Elasticsearch
         print(f"Connecting to Elasticsearch at {elasticsearch_url}...")
-        self.es_client = Elasticsearch(elasticsearch_url)
+        self.es_client = Elasticsearch(
+            elasticsearch_url,
+            verify_certs=False,
+            ssl_show_warn=False,
+            request_timeout=30
+        )
 
         # Check Elasticsearch connection
-        if not self.es_client.ping():
+        try:
+            if not self.es_client.ping():
+                raise ConnectionError(
+                    f"Cannot connect to Elasticsearch at {elasticsearch_url}. "
+                    "Make sure Elasticsearch is running."
+                )
+        except Exception as e:
             raise ConnectionError(
                 f"Cannot connect to Elasticsearch at {elasticsearch_url}. "
-                "Make sure Elasticsearch is running."
+                f"Error: {e}"
             )
 
         # Create index if not exists
