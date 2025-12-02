@@ -1,0 +1,15 @@
+# Local RAG Requirements (no AWS dependencies)
+torch>=2.0.0
+transformers>=4.30.0
+numpy>=1.24.0
+tqdm>=4.65.0
+sentence-transformers>=2.2.2
+
+# Vector database
+pinecone-client>=3.0.0
+
+# Local search engine
+elasticsearch>=8.0.0
+
+# Utilities
+accelerate

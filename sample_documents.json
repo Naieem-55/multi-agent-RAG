@@ -1,0 +1,82 @@
+[
+  {
+    "id": "doc_001",
+    "text": "Machine learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed. It focuses on developing algorithms that can access data and use it to learn for themselves. The process begins with observations or data, such as examples, direct experience, or instruction, to look for patterns in data and make better decisions in the future."
+  },
+  {
+    "id": "doc_002",
+    "text": "Deep learning is a subset of machine learning that uses neural networks with multiple layers (hence 'deep') to progressively extract higher-level features from raw input. For example, in image processing, lower layers may identify edges, while higher layers may identify human-recognizable concepts such as digits, letters, or faces. Deep learning has revolutionized fields like computer vision, natural language processing, and speech recognition."
+  },
+  {
+    "id": "doc_003",
+    "text": "Natural Language Processing (NLP) is a branch of artificial intelligence that deals with the interaction between computers and humans using natural language. The ultimate goal of NLP is to read, decipher, understand, and make sense of human languages in a valuable way. NLP combines computational linguistics with statistical, machine learning, and deep learning models."
+  },
+  {
+    "id": "doc_004",
+    "text": "Retrieval-Augmented Generation (RAG) is a technique that combines the benefits of retrieval-based and generation-based approaches in NLP. RAG systems first retrieve relevant documents from a knowledge base and then use a language model to generate responses based on both the retrieved information and the original query. This approach helps reduce hallucinations and provides more accurate, grounded responses."
+  },
+  {
+    "id": "doc_005",
+    "text": "Transformers are a type of neural network architecture introduced in the paper 'Attention Is All You Need' by Vaswani et al. in 2017. They rely entirely on self-attention mechanisms to compute representations of input and output sequences. Transformers have become the foundation for most modern NLP models, including BERT, GPT, and T5, due to their ability to handle long-range dependencies and parallelize training."
+  },
+  {
+    "id": "doc_006",
+    "text": "BERT (Bidirectional Encoder Representations from Transformers) is a pre-trained language model developed by Google. Unlike previous models that read text sequentially, BERT reads text bidirectionally, allowing it to understand context from both directions. BERT has achieved state-of-the-art results on various NLP tasks including question answering, named entity recognition, and sentiment analysis."
+  },
+  {
+    "id": "doc_007",
+    "text": "GPT (Generative Pre-trained Transformer) is a series of large language models developed by OpenAI. GPT models are trained on vast amounts of text data and can generate human-like text, answer questions, write code, and perform various language tasks. The latest versions, GPT-4 and beyond, demonstrate remarkable capabilities in reasoning, creativity, and following complex instructions."
+  },
+  {
+    "id": "doc_008",
+    "text": "Vector databases are specialized database systems designed to store, index, and query high-dimensional vectors efficiently. They are essential for modern AI applications like semantic search, recommendation systems, and RAG pipelines. Popular vector databases include Pinecone, Weaviate, Milvus, and Chroma. They use algorithms like HNSW and IVF for approximate nearest neighbor search."
+  },
+  {
+    "id": "doc_009",
+    "text": "Elasticsearch is a distributed, open-source search and analytics engine built on Apache Lucene. It provides a scalable search solution with near real-time search capabilities. Elasticsearch supports full-text search, structured search, and analytics, making it popular for log analysis, application monitoring, and enterprise search applications. It uses an inverted index for fast text retrieval."
+  },
+  {
+    "id": "doc_010",
+    "text": "Pinecone is a fully managed vector database designed for machine learning applications. It allows developers to build and deploy large-scale similarity search applications without managing infrastructure. Pinecone provides fast and accurate vector similarity search, making it ideal for semantic search, recommendations, and RAG systems. It supports metadata filtering and hybrid search capabilities."
+  },
+  {
+    "id": "doc_011",
+    "text": "The attention mechanism in neural networks allows models to focus on relevant parts of the input when producing output. Self-attention, used in Transformers, computes attention weights between all positions in a sequence, enabling the model to capture dependencies regardless of distance. Multi-head attention extends this by running multiple attention operations in parallel, allowing the model to attend to information from different representation subspaces."
+  },
+  {
+    "id": "doc_012",
+    "text": "Fine-tuning is a transfer learning technique where a pre-trained model is further trained on a specific dataset for a particular task. Instead of training from scratch, fine-tuning leverages the knowledge already captured in the pre-trained model's weights. This approach requires less data and computational resources while often achieving better performance than training from scratch."
+  },
+  {
+    "id": "doc_013",
+    "text": "Prompt engineering is the practice of designing and optimizing input prompts to get desired outputs from language models. Effective prompts can significantly improve model performance on various tasks. Techniques include zero-shot prompting, few-shot learning with examples, chain-of-thought prompting for reasoning tasks, and instruction tuning for following specific guidelines."
+  },
+  {
+    "id": "doc_014",
+    "text": "Embeddings are dense vector representations of data (text, images, audio) that capture semantic meaning in a continuous vector space. Similar items have embeddings that are close together in this space. Text embeddings from models like Sentence-BERT or OpenAI's embedding models enable semantic search, clustering, and similarity comparisons. They are fundamental to modern NLP and information retrieval systems."
+  },
+  {
+    "id": "doc_015",
+    "text": "Hallucination in AI refers to when a language model generates information that sounds plausible but is factually incorrect or not grounded in the provided context. RAG systems help mitigate hallucinations by grounding model responses in retrieved documents. Other techniques include confidence calibration, fact verification, and training with human feedback (RLHF)."
+  },
+  {
+    "id": "doc_016",
+    "text": "Python is a high-level, interpreted programming language known for its simple syntax and readability. It is widely used in data science, machine learning, web development, and automation. Python's extensive ecosystem includes libraries like NumPy, Pandas, TensorFlow, PyTorch, and scikit-learn, making it the dominant language for AI and ML development."
+  },
+  {
+    "id": "doc_017",
+    "text": "PyTorch is an open-source machine learning framework developed by Facebook's AI Research lab. It provides tensor computation with GPU acceleration and a dynamic computational graph that allows for flexible model building. PyTorch is popular in research due to its Pythonic interface and ease of debugging. It supports automatic differentiation for training neural networks."
+  },
+  {
+    "id": "doc_018",
+    "text": "Hugging Face is a company and open-source community that provides tools and models for natural language processing. Their Transformers library offers thousands of pre-trained models for text, vision, and audio tasks. The Hugging Face Hub hosts models, datasets, and spaces for ML applications, making it a central resource for the AI community."
+  },
+  {
+    "id": "doc_019",
+    "text": "Semantic search goes beyond keyword matching to understand the meaning and intent behind queries. It uses embeddings to represent queries and documents in a vector space, enabling retrieval based on conceptual similarity rather than exact word matches. This approach handles synonyms, paraphrases, and related concepts better than traditional keyword-based search."
+  },
+  {
+    "id": "doc_020",
+    "text": "BM25 (Best Matching 25) is a ranking function used in information retrieval to estimate the relevance of documents to a search query. It is based on the probabilistic retrieval framework and considers term frequency, inverse document frequency, and document length normalization. BM25 remains a strong baseline for keyword-based search and is often combined with semantic search in hybrid systems."
+  }
+]
