@@ -1,7 +1,45 @@
 # RAGentA: Multi-Agent Retrieval-Augmented Generation for Attributed Question Answering
-RAGentA, a multi-agent retrieval-augmented generation (RAG) framework for attributed question answering. With the goal of trustworthy answer generation, RAGentA focuses on optimizing answer correctness, defined by coverage and relevance to the question and faithfulness, which measures the extent to which answers are grounded in retrieved documents
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: BSD-3](https://img.shields.io/badge/License-BSD%203--Clause-green.svg)](LICENSE)
+[![arXiv](https://img.shields.io/badge/arXiv-2506.16988-b31b1b.svg)](https://arxiv.org/abs/2506.16988)
+
+RAGentA is a multi-agent retrieval-augmented generation (RAG) framework for attributed question answering. With the goal of trustworthy answer generation, RAGentA focuses on optimizing answer correctness, defined by coverage and relevance to the question and faithfulness, which measures the extent to which answers are grounded in retrieved documents.
+
+## Quick Start
+
+Get RAGentA running in 5 minutes with this minimal example:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/Naieem-55/multi-agent-RAG.git
+cd multi-agent-RAG
+
+# 2. Create virtual environment
+python -m venv env
+source env/bin/activate  # Windows: env\Scripts\activate
+
+# 3. Install dependencies (choose one)
+pip install -r requirements.txt          # For API-based usage
+pip install -r requirements_local.txt    # For local model inference
+
+# 4. Set environment variables
+export AWS_PROFILE=sigir-participant
+export AWS_REGION=us-east-1
+
+# 5. Run a simple query
+python run_RAGentA.py --single_question "What is machine learning?"
+```
+
+### Requirements File Guide
+
+| File | Use Case | Description |
+|------|----------|-------------|
+| `requirements.txt` | API-based inference | Lighter dependencies, uses external APIs for LLM |
+| `requirements_local.txt` | Local GPU inference | Full dependencies including PyTorch CUDA support |
 
 ## Features
+
 - **Multi-Agent Architecture**: Uses multiple specialized agents for document retrieval, relevance judgment, answer generation, and claim analysis
 - **Hybrid Retrieval**: Combines semantic (dense) and keyword (sparse) search for better document retrieval
 - **Citation Tracking**: Automatically tracks citations in generated answers to ensure factual accuracy
@@ -10,50 +48,58 @@ RAGentA, a multi-agent retrieval-augmented generation (RAG) framework for attrib
 - **Evaluation Metrics**: Includes standard RAG evaluation metrics like MRR, Recall, Precision, and F1
 
 ## Requirements
+
 - Python 3.8+
 - PyTorch 2.0.0+
 - CUDA-compatible GPU (recommended)
 - AWS account with access to OpenSearch and Pinecone (for hybrid retrieval)
 
 ## Installation
+
 1. Clone the repository:
 ```bash
-git clone git@github.com:tobiasschreieder/LiveRAG.git
-cd LiveRAG
+git clone https://github.com/Naieem-55/multi-agent-RAG.git
+cd multi-agent-RAG
 ```
-3. Create and activate a virtual environment:
-```python
+
+2. Create and activate a virtual environment:
+```bash
 python -m venv env
 source env/bin/activate  # On Windows, use: env\Scripts\activate
 ```
+
 3. Install dependencies:
-```python
+```bash
 pip install -r requirements.txt
 ```
 
 ## Configuration
+
 ### AWS Configuration
+
 RAGentA uses AWS services for document retrieval. You'll need to set up AWS credentials:
+
 1. Create AWS credentials file:
 ```bash
 mkdir -p ~/.aws
 ```
 
-2. Add your credentials to ~/.aws/credentials
+2. Add your credentials to `~/.aws/credentials`:
 ```
 [sigir-participant]
 aws_access_key_id = YOUR_ACCESS_KEY
 aws_secret_access_key = YOUR_SECRET_KEY
 ```
 
-3. Add your region to ~/.aws/config
+3. Add your region to `~/.aws/config`:
 ```
 [profile sigir-participant]
 region = us-east-1
 output = json
 ```
 
-## Environment Variables
+### Environment Variables
+
 Set the following environment variables:
 ```bash
 export AWS_PROFILE=sigir-participant
@@ -62,197 +108,119 @@ export HUGGING_FACE_HUB_TOKEN=your_hf_token  # If needed for accessing models
 ```
 
 ## Running RAGentA
+
 RAGentA can be run on a single question or a batch of questions from a JSON/JSONL file.
+
 ### Process a Single Question
 ```bash
 python run_RAGentA.py --model tiiuae/Falcon3-10B-Instruct --n 0.5 --alpha 0.65 --top_k 20 --single_question "Your question here?"
 ```
+
 ### Process Questions from a Dataset
 ```bash
 python run_RAGentA.py --model tiiuae/Falcon3-10B-Instruct --n 0.5 --alpha 0.65 --top_k 20 --data_file your_questions.jsonl --output_format jsonl
 ```
+
 ### Parameters
-- `--model`: Model name or path (default: "tiiuae/falcon-3-10b-instruct")
-- `--n`: Adjustment factor for adaptive judge bar (default: 0.5)
-- `--alpha`: Weight for semantic search vs. keyword search (0-1, default: 0.65)
-- `--top_k`: Number of documents to retrieve (default: 20)
-- `--data_file`: File containing questions in JSON or JSONL format
-- `--single_question`: Process a single question instead of a dataset
-- `--output_format`: Output format - json, jsonl, or debug (default: jsonl)
-- `--output_dir`: Directory to save results (default: "results")
 
-## Input Format
-The input file should be in JSON or JSONL format with the following structure:
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `--model` | Model name or path | `tiiuae/falcon-3-10b-instruct` |
+| `--n` | Adjustment factor for adaptive judge bar | `0.5` |
+| `--alpha` | Weight for semantic vs keyword search (0-1) | `0.65` |
+| `--top_k` | Number of documents to retrieve | `20` |
+| `--data_file` | File containing questions (JSON/JSONL) | - |
+| `--single_question` | Process a single question | - |
+| `--output_format` | Output format: json, jsonl, or debug | `jsonl` |
+| `--output_dir` | Directory to save results | `results` |
+
+## Input/Output Format
+
+### Input
 ```json
-{
-  "id": "question_id",
-  "question": "The question text?"
-}
+{"id": "question_id", "question": "The question text?"}
 ```
-Or for JSONL, each line should be:
-```{"id": "question_id", "question": "The question text?"}```
 
-### Output Format
-Results are saved in the specified output format with the following structure:
+### Output
 ```json
 {
   "id": "question_id",
   "question": "The question text?",
-  "passages": [
-    {
-      "passage": "Document content...",
-      "doc_IDs": ["doc_id1", "doc_id2"]
-    }
-  ],
+  "passages": [{"passage": "Document content...", "doc_IDs": ["doc_id1"]}],
   "final_prompt": "Final prompt used for generation...",
   "answer": "Generated answer..."
 }
 ```
 
 ## System Architecture
-RAGentA uses a sophisticated multi-agent architecture to improve the quality of retrieval-augmented generation. Here's a detailed breakdown of how the system works:
-- **Agent 1 (Predictor)**: Generates candidate answers for each retrieved document
-- **Agent 2 (Judge)**: Evaluates document relevance for the query
-- **Agent 3 (Final-Predictor)**: Generates the final answer with citations
-- **Agent 4 (Claim Judge)**: Analyzes claims in the answer and identifies knowledge gaps
-### Multi-Agent Architecture
-The core of RAGentA is its 4-agent architecture that handles different aspects of the retrieval and generation process:
-#### Agent 1: Predictor
-- **Purpose**: Generates candidate answers for each retrieved document
-- **Input**: Query + single document
-- **Output**: Document-specific answer
-- **Process**: For each retrieved document, Agent 1 creates a potential answer based solely on that document
-- **Implementation**: Uses prompt template `_create_agent1_prompt()` in `RAGentA.py`
-#### Agent 2: Judge
-- **Purpose**: Evaluates document relevance and filters out noise
-- **Input**: Query + document + candidate answer
-- **Output**: Relevance score (log probability)
-- **Process**: Calculates score as `log_probs["Yes"] - log_probs["No"]` for each document
-- **Key Innovation**: Creates an adaptive threshold (τq) based on score distribution
-- **Implementation**: Uses `get_log_probs()` method rather than regular generation
-#### Agent 3: Final-Predictor
-- **Purpose**: Generates comprehensive answer with citations
-- **Input**: Query + filtered documents
-- **Output**: Answer with proper [X] citations
-- **Process**: Synthesizes information across filtered documents with strict citation requirements
-- **Implementation**: Uses detailed prompt with citation guidelines in `_create_agent3_prompt()`
-#### Agent 4: Claim Judge (EnhancedAgent4)
-- **Purpose**: Analyzes answer quality and detects knowledge gaps
-- **Input**: Query + answer with citations + claims + documents
-- **Output**: Improved answer + follow-up questions if needed
-- **Process**:
-  1. Breaks answer into individual claims with citations
-  2. Analyzes if the question has multiple components
-  3. Determines which claims address which components
-  4. Identifies any unanswered aspects
-  5. Generates follow-up questions for missing information
-  6. Retrieves new documents and integrates additional knowledge
-- **Implementation**: Most complex agent, implemented as separate `EnhancedAgent4` class
-### Hybrid Retrieval System
-RAGentA uses a hybrid approach combining dense and sparse retrieval methods:
-#### 1. Semantic Search (Dense Retrieval):
-- Uses Pinecone vector database
-- Embedding model: intfloat/e5-base-v2
-- Provides context-aware document retrieval
-#### 2. Keyword Search (Sparse Retrieval):
-- Uses OpenSearch for traditional keyword matching
-- Handles cases where semantic search may miss important keywords
-#### 3. Hybrid Scoring:
-- Combines scores with weighting parameter `alpha`
-- Formula: `final_score = alpha * semantic_score + (1 - alpha) * keyword_score`
-- Higher alpha (default 0.65) puts more emphasis on semantic search
-### Question Analysis & Follow-up System
-One of RAGentA's key innovations is how it analyzes questions and identifies when they're not fully answered:
-1. **Question Structure Analysis**:
-- Determines if question contains multiple distinct components
-- Avoids artificially breaking a single question into parts
-2. **Claim Mapping**:
-- Maps each claim in the answer to specific question components
-- Tracks which claims address which parts of the question
-3. **Coverage Assessment**:
-- Evaluates if each component is fully answered, partially answered, or not answered
-- Uses regex patterns to extract coverage assessments from LLM output
-4. **Follow-up Processing**:
-- For unanswered components, generates standalone follow-up questions
-- Retrieves new documents specifically for these follow-up questions
-- Integrates new information into original answer
-### Adaptive Judge Bar Mechanism
-The system uses a statistical approach to determine document relevance:
-1. Calculate mean score (τq) across all documents
-2. Calculate standard deviation (σ) of scores
-3. Set threshold as: `adjusted_tau_q = τq - n * σ` where n is a hyperparameter
-4. Only documents with scores ≥ adjusted_tau_q are used
-5. This adaptive threshold adjusts based on query difficulty and document quality
-### Agent Implementations
-RAGentA supports two types of agent implementations, but Local LLM Agent is strongly recommended:
-1. **Local LLM Agent** (`LLMAgent` class):
-- Runs models directly on local hardware (GPU/CPU)
-- Supports various model precision formats (bfloat16, float16, float32)
-- Optimized for different hardware configurations
-- Uses Hugging Face transformers with device_map="auto"
-2. **API-based Agent** (`FalconAgent` class):
-- Connects to external API (AI71) for inference
-- Uses exponential backoff for request retries
-- Approximates log probabilities for Yes/No judgments
-- Ideal when local hardware is insufficient for model size
-### Information Flow
-Here's how information flows through the system:
-#### 1. Retrieval Phase:
-- Query is sent to hybrid retriever
-- Top-k documents retrieved (default 20)
-- Documents combined from semantic and keyword search
-#### 2. Initial Judgment Phase:
-- Agent 1 generates answers for each document
-- Agent 2 scores each document
-- Adaptive threshold calculated
-- Low-scoring documents filtered out
-#### 3. Answer Generation Phase:
-- Agent 3 generates comprehensive answer with citations
-- Citations use [X] format where X is document number
-- Claims extracted with citation mapping
-#### 4. Analysis Phase:
-- Agent 4 analyzes if question is completely answered
-- Identifies any unanswered components
-- Generates follow-up questions if needed
-#### 5. Follow-up Phase (if needed):
-- Retrieves new documents for follow-up questions
-- Generates answers to follow-up questions
-- Integrates new information with original answer
 
-This multi-stage approach with specialized agents allows RAGentA to produce more accurate, comprehensive, and properly cited answers compared to simpler RAG approaches.
+RAGentA uses a sophisticated multi-agent architecture:
+
+```
+Query → Hybrid Retrieval → Agent 1 (Predictor) → Agent 2 (Judge) → Agent 3 (Final-Predictor) → Agent 4 (Claim Judge) → Answer
+              ↓                    ↓                   ↓                      ↓                        ↓
+        Pinecone + OpenSearch   Per-doc answers    Relevance scoring    Cited answer           Gap analysis + Follow-up
+```
+
+### Agent Overview
+
+| Agent | Purpose | Input | Output |
+|-------|---------|-------|--------|
+| Agent 1 (Predictor) | Generate candidate answers | Query + document | Document-specific answer |
+| Agent 2 (Judge) | Evaluate document relevance | Query + document + answer | Relevance score |
+| Agent 3 (Final-Predictor) | Generate comprehensive answer | Query + filtered docs | Answer with citations |
+| Agent 4 (Claim Judge) | Analyze claims & detect gaps | Answer + claims | Improved answer + follow-ups |
+
+## Troubleshooting
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| **Pinecone connection failed** | Verify API key in environment variables; check network connectivity |
+| **OpenSearch timeout** | Ensure AWS credentials are valid; check region configuration |
+| **Out of memory** | Reduce `--top_k` or use a smaller model; try `requirements.txt` with API mode |
+| **Model download fails** | Set `HUGGING_FACE_HUB_TOKEN`; check disk space (models ~10-20GB) |
+| **CUDA not available** | Install PyTorch with CUDA support: `pip install torch --index-url https://download.pytorch.org/whl/cu118` |
+
+### Validating Setup
+
+Run the setup validation script:
+```bash
+python -c "
+from retrieval.hybrid_retriever import HybridRetriever
+retriever = HybridRetriever()
+print('Setup validated successfully!')
+"
+```
 
 ## Evaluation
-To evaluate RAG performance, use the metrics in `RAG_evaluation.py`:
+
+To evaluate RAG performance:
 ```python
 from RAG_evaluation import evaluate_corpus_rag_mrr, evaluate_corpus_rag_recall
 
-# Example usage
 mrr_score = evaluate_corpus_rag_mrr(retrieved_docs_list, golden_docs_list, k=5)
 recall_score = evaluate_corpus_rag_recall(retrieved_docs_list, golden_docs_list, k=20)
 ```
 
+## Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
 ## License
-This project is licensed under the BSD 2-Clause License - see the LICENSE file for details.
 
-## Acknowledgments and Inspiration
-RAGentA draws inspiration from the MAIN-RAG framework (Multi-Agent Filtering Retrieval-Augmented Generation) introduced by Chang et al. in their paper [MAIN-RAG: Multi-Agent Filtering Retrieval-Augmented Generation](https://arxiv.org/abs/2501.00332). While RAGentA follows a similar multi-agent architecture approach for the first three agents, our implementation is independently developed and significantly extends the original concept through:
-1. **Hybrid Retrieval System**: RAGentA implements an advanced hybrid retrieval approach that combines semantic (dense) and keyword (sparse) search with configurable weighting (α parameter) to improve document relevance
-2. **Enhanced Agent-3**: Our implementation includes explicit citation tracking capabilities to improve answer transparency and traceability
-3. **Additional Agent-4 (Claim Judge)**: RAGentA introduces a fourth agent that performs claim-by-claim analysis to identify gaps in knowledge and generate targeted follow-up questions
-4. **Follow-up Processing**: RAGentA can retrieve additional information for unanswered aspects of questions through a novel follow-up question generation system
+This project is licensed under the BSD 3-Clause License - see the [LICENSE](LICENSE) file for details.
 
-Please cite both the original MAIN-RAG paper and RAGentA, when using this work:
-```
-@misc{Chang2024MAIN-RAG,
-      title={MAIN-RAG: Multi-Agent Filtering Retrieval-Augmented Generation}, 
-      author={Chia-Yuan Chang and Zhimeng Jiang and Vineeth Rakesh and Menghai Pan and Chin-Chia Michael Yeh and Guanchu Wang and Mingzhi Hu and Zhichao Xu and Yan Zheng and Mahashweta Das and Na Zou},
-      year={2024},
-      eprint={2501.00332},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2501.00332}, 
-}
+## Citation
 
+```bibtex
 @misc{Besrour2025RAGentA,
   author       = {Ines Besrour and Jingbo He and Tobias Schreieder and Michael Färber},
   title        = {{RAGentA: Multi-Agent Retrieval-Augmented Generation for Attributed Question Answering}},
@@ -261,6 +229,9 @@ Please cite both the original MAIN-RAG paper and RAGentA, when using this work:
   archivePrefix= {arXiv},
   primaryClass = {cs.IR},
   url          = {https://arxiv.org/abs/2506.16988},
-  note         = {Presented at the SIGIR 2025 LiveRAG Challenge, held in conjunction with the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR 2025), July 13–17, 2025, Padua, Italy}
 }
 ```
+
+## Acknowledgments
+
+RAGentA draws inspiration from the [MAIN-RAG framework](https://arxiv.org/abs/2501.00332) by Chang et al.
